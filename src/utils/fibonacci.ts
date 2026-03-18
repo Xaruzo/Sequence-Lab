@@ -42,14 +42,15 @@ export function fibonacciMemoization(n: number): number[] {
 
 export function measurePerformance(
   fn: (n: number) => number[],
-  n: number
+  n: number,
+  algorithm: 'tabulation' | 'memoization'
 ): PerformanceResult {
   const start = performance.now();
   const sequence = fn(n);
   const end = performance.now();
   
   return {
-    algorithm: fn.name.includes('Tabulation') ? 'tabulation' : 'memoization',
+    algorithm,
     executionTime: end - start,
     sequence,
     inputSize: n

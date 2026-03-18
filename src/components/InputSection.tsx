@@ -25,8 +25,8 @@ export const InputSection: React.FC = () => {
     // Use setTimeout to allow the loading state to render
     setTimeout(() => {
       try {
-        const tabResult = measurePerformance(fibonacciTabulation, n);
-        const memoResult = measurePerformance(fibonacciMemoization, n);
+        const tabResult = measurePerformance(fibonacciTabulation, n, 'tabulation');
+        const memoResult = measurePerformance(fibonacciMemoization, n, 'memoization');
         setResults(tabResult, memoResult, n);
       } catch (err) {
         setError('An error occurred during calculation. The input might be too large.');
