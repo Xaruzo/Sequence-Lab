@@ -15,9 +15,10 @@ import { useStore } from '../store/useStore';
 import { LineChart as ChartIcon, Info } from 'lucide-react';
 
 export const ComplexityChart: React.FC = () => {
-  const { chartData, envInfo } = useStore();
+  const { chartData, envInfo, tabulationResult } = useStore();
 
-  if (chartData.length === 0) return null;
+  // Only show the chart once at least one calculation has been performed
+  if (!tabulationResult && chartData.length <= 1) return null;
 
   return (
     <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border border-zinc-200 dark:border-zinc-800 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">

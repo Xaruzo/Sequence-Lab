@@ -46,7 +46,7 @@ export const useStore = create<ComparisonState>((set) => ({
   inputSize: 0,
   isLoading: false,
   error: null,
-  chartData: [],
+  chartData: [{ n: 0, tabulation: 0, memoization: 0 }],
   envInfo: getEnvInfo(),
   setResults: (tab, memo, size) => 
     set((state) => {
@@ -74,6 +74,6 @@ export const useStore = create<ComparisonState>((set) => ({
     inputSize: 0, 
     isLoading: false, 
     error: null,
-    chartData: [] 
+    chartData: [{ n: 0, tabulation: 0, memoization: 0 }] 
   }),
 }));
