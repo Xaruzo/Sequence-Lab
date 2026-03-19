@@ -69,9 +69,11 @@ export const PerformanceComparison: React.FC = () => {
 
         <div className="space-y-6">
           {/* Summary Text Section */}
-          <div className="bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-100 dark:border-zinc-800/50 p-4 rounded-xl transition-all duration-300 hover:border-zinc-200 dark:hover:border-zinc-700">
-            <div className="flex items-start gap-3">
-              <TrendingUp className="text-green-500 mt-1" size={16} />
+          <div className="bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-100 dark:border-zinc-800/50 p-5 rounded-xl transition-all duration-300 hover:border-zinc-200 dark:hover:border-zinc-700">
+            <div className="flex items-start gap-4">
+              <div className="mt-0.5 h-8 w-8 rounded-lg bg-green-100/70 dark:bg-green-900/20 border border-green-200/60 dark:border-green-800/40 text-green-700 dark:text-green-300 flex items-center justify-center flex-shrink-0">
+                <TrendingUp size={16} />
+              </div>
               <div className="space-y-2">
                 <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
                   {isEquivalent ? (
@@ -87,16 +89,16 @@ export const PerformanceComparison: React.FC = () => {
                     </>
                   )}
                 </p>
-                <div className="flex items-center gap-4 text-[10px] text-zinc-500 font-medium uppercase tracking-wider">
-                  <div className="flex items-center gap-1">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                  <div className="flex items-center gap-1.5">
                     <Hash size={12} className="opacity-70" />
                     <span>Index: {inputSize}</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <List size={12} className="opacity-70" />
                     <span>Terms: {inputSize + 1} (F0–Fn)</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <Cpu size={12} className="opacity-60" />
                     <span>{iterations} runs</span>
                   </div>
