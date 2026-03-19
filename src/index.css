@@ -51,10 +51,6 @@
   }
 }
 
-:root {
-  scrollbar-gutter: stable;
-}
-
 .custom-scrollbar {
   scrollbar-gutter: stable;
 }
