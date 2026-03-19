@@ -89,11 +89,15 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
           </div>
           <div>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Benchmark Data</p>
-            <p className="text-sm font-mono font-bold text-zinc-800 dark:text-zinc-200">
-              {result.iterations} <span className="text-[10px] font-normal uppercase opacity-60">iterations</span>
+            <p className="text-sm font-mono font-bold text-zinc-800 dark:text-zinc-200 tabular-nums">
+              {result.iterations}{' '}
+              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 normal-case">
+                runs
+              </span>
             </p>
-            <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
-              Warm-up: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.warmupIterations}</span> · Batch: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.batchSize}</span>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+              Warm-up: <span className="text-zinc-700 dark:text-zinc-300 font-mono tabular-nums">{result.warmupIterations}</span> · Batch:{' '}
+              <span className="text-zinc-700 dark:text-zinc-300 font-mono tabular-nums">{result.batchSize}</span>
             </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold mt-1">
               Sequence: <span className="font-mono">{result.inputSize + 1}</span> terms <span className="font-mono opacity-80">(F0–Fn)</span>
