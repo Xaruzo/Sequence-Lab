@@ -88,8 +88,8 @@ export const useStore = create<ComparisonState>((set) => ({
     set((state) => {
       const newChartData = [...state.chartData.filter(d => d.n !== size), {
         n: size,
-        tabulation: parseFloat(tab.trimmedMeanTime.toFixed(4)),
-        memoization: parseFloat(memo.trimmedMeanTime.toFixed(4))
+        tabulation: parseFloat(tab.trimmedMeanTime.toFixed(6)),
+        memoization: parseFloat(memo.trimmedMeanTime.toFixed(6))
       }].sort((a, b) => a.n - b.n);
       const limited = newChartData.slice(-60);
       saveChartData(limited);

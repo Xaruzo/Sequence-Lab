@@ -18,6 +18,18 @@ export const ComplexityChart: React.FC = () => {
   const { chartData, envInfo, tabulationResult, memoizationResult, clearChartHistory } = useStore();
 
   if (!tabulationResult || !memoizationResult) return null;
+  
+  const maxTimeMs = Math.max(
+    0,
+    ...chartData.map((d) => Math.max(d.tabulation ?? 0, d.memoization ?? 0))
+  );
+  const useMicros = maxTimeMs > 0 && maxTimeMs < 1;
+  const timeUnit = useMicros ? 'µs' : 'ms';
+  const formatTime = (ms: number) => {
+    if (!Number.isFinite(ms)) return '';
+    if (useMicros) return `${(ms * 1000).toFixed(1)}µs`;
+    return `${ms.toFixed(ms < 10 ? 4 : 2)}ms`;
+  };
 
   return (
     <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border border-zinc-200 dark:border-zinc-800 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">
@@ -88,7 +100,8 @@ export const ComplexityChart: React.FC = () => {
               fontSize={10} 
               tickLine={false} 
               axisLine={false}
-              label={{ value: 'Time (ms)', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#a1a1aa' }}
+              tickFormatter={(v) => (useMicros ? (Number(v) * 1000).toFixed(0) : Number(v).toFixed(maxTimeMs < 10 ? 2 : 1))}
+              label={{ value: `Time (${timeUnit})`, angle: -90, position: 'insideLeft', fontSize: 10, fill: '#a1a1aa' }}
             />
             <Tooltip 
               contentStyle={{ 
@@ -100,6 +113,7 @@ export const ComplexityChart: React.FC = () => {
                 color: 'var(--chart-tooltip-text)'
               }}
               labelStyle={{ color: 'var(--chart-tooltip-text)', fontWeight: 700 }}
+              formatter={(value) => formatTime(Number(value))}
               itemStyle={{ padding: '2px 0' }}
             />
             <Legend 
