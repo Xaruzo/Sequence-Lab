@@ -1,17 +1,17 @@
 export interface PerformanceResult {
   algorithm: 'tabulation' | 'memoization';
   executionTime: number; // in milliseconds
-  sequence: number[];
+  sequence: bigint[];
   inputSize: number;
 }
 
-export function fibonacciTabulation(n: number): number[] {
+export function fibonacciTabulation(n: number): bigint[] {
   if (n < 0) return [];
-  if (n === 0) return [0];
+  if (n === 0) return [0n];
   
-  const dp: number[] = new Array(n + 1);
-  dp[0] = 0;
-  dp[1] = 1;
+  const dp: bigint[] = new Array(n + 1);
+  dp[0] = 0n;
+  dp[1] = 1n;
   
   for (let i = 2; i <= n; i++) {
     dp[i] = dp[i - 1] + dp[i - 2];
@@ -20,28 +20,34 @@ export function fibonacciTabulation(n: number): number[] {
   return dp;
 }
 
-export function fibonacciMemoization(n: number): number[] {
-  const memo: Map<number, number> = new Map();
+export function fibonacciMemoization(n: number): bigint[] {
+  if (n < 0) return [];
+  if (n === 0) return [0n];
   
-  function fib(n: number): number {
-    if (n <= 1) return n;
-    if (memo.has(n)) return memo.get(n)!;
+  const memo: bigint[] = new Array(n + 1);
+  memo[0] = 0n;
+  memo[1] = 1n;
+  
+  function fib(k: number): bigint {
+    if (k === 0) return 0n;
+    if (k === 1) return 1n;
+    if (memo[k] !== undefined) return memo[k];
     
-    const result = fib(n - 1) + fib(n - 2);
-    memo.set(n, result);
-    return result;
+    memo[k] = fib(k - 1) + fib(k - 2);
+    return memo[k];
   }
   
-  const result: number[] = [];
-  for (let i = 0; i <= n; i++) {
-    result.push(fib(i));
-  }
+  // Single top-down call fills the memo array from n down to base cases
+  fib(n);
   
-  return result;
+  // Convert the memoized array to a complete sequence
+  // In a realistic scenario, memo[0] and memo[1] might not be set by fib(n) 
+  // if n is large and they were already set, but here we set them manually.
+  return Array.from({ length: n + 1 }, (_, i) => memo[i]);
 }
 
 export function measurePerformance(
-  fn: (n: number) => number[],
+  fn: (n: number) => bigint[],
   n: number,
   algorithm: 'tabulation' | 'memoization'
 ): PerformanceResult {

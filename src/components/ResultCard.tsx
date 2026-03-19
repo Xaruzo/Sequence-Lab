@@ -59,8 +59,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster }) => {
           <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider mb-2">Partial Sequence</p>
           <div className="bg-zinc-50 dark:bg-zinc-950 rounded-lg p-3 max-h-32 overflow-y-auto font-mono text-xs leading-relaxed text-zinc-700 dark:text-zinc-300 break-all border border-zinc-100 dark:border-zinc-800">
             {result.sequence.length > 50 
-              ? `${result.sequence.slice(0, 50).join(', ')} ... [and ${result.sequence.length - 50} more]`
-              : result.sequence.join(', ')
+              ? `${result.sequence.slice(0, 50).map(b => b.toString()).join(', ')} ... [and ${result.sequence.length - 50} more]`
+              : result.sequence.map(b => b.toString()).join(', ')
             }
           </div>
         </div>

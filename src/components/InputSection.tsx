@@ -15,8 +15,8 @@ export const InputSection: React.FC = () => {
       return;
     }
 
-    if (n > 1000) {
-        setError('For performance reasons, please enter a number up to 1000.');
+    if (n > 5000) {
+        setError('For performance reasons, please enter a number up to 5000.');
         return;
     }
 
@@ -50,7 +50,7 @@ export const InputSection: React.FC = () => {
             id="fib-input"
             type="number"
             min="0"
-            max="1000"
+            max="5000"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Enter a non-negative integer (e.g., 50)"
