@@ -50,8 +50,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster }) => {
             <ListOrdered size={18} className="text-zinc-600 dark:text-zinc-400" />
           </div>
           <div>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Sequence Length</p>
-            <p className="text-lg font-mono font-bold text-zinc-800 dark:text-zinc-200">{result.inputSize + 1}</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Sequence (F₀ to Fₙ)</p>
+            <p className="text-lg font-mono font-bold text-zinc-800 dark:text-zinc-200">{result.inputSize + 1} terms</p>
           </div>
         </div>
 

@@ -20,13 +20,18 @@ export const PerformanceComparison: React.FC = () => {
   const memoTime = memoizationResult.executionTime;
   
   const totalTime = tabTime + memoTime;
-  const ratio = tabTime > memoTime ? tabTime / memoTime : memoTime / tabTime;
   const isTabFaster = tabTime < memoTime;
   const faster = isTabFaster ? 'Tabulation' : 'Memoization';
   const slower = isTabFaster ? 'Memoization' : 'Tabulation';
   
-  const tabPercent = (tabTime / totalTime) * 100;
-  const memoPercent = (memoTime / totalTime) * 100;
+  // Calculate ratio safely, handling cases where execution time is near zero
+  const minTime = 0.0001;
+  const ratio = isTabFaster 
+    ? memoTime / Math.max(tabTime, minTime) 
+    : tabTime / Math.max(memoTime, minTime);
+  
+  const tabPercent = totalTime > 0 ? (tabTime / totalTime) * 100 : 50;
+  const memoPercent = totalTime > 0 ? (memoTime / totalTime) * 100 : 50;
 
   return (
     <div className="relative overflow-hidden bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-100 p-6 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 group hover:shadow-2xl hover:border-blue-500/30 dark:hover:border-blue-400/20">
@@ -45,7 +50,7 @@ export const PerformanceComparison: React.FC = () => {
             </h3>
           </div>
           <div className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">
-            Real-time Metrics
+            Real-time Analysis
           </div>
         </div>
 
@@ -54,8 +59,10 @@ export const PerformanceComparison: React.FC = () => {
             <div className="flex items-start gap-3">
               <TrendingUp className="text-green-500 mt-1" size={16} />
               <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
-                <span className="text-zinc-900 dark:text-white font-bold">{faster}</span> leads with an impressive{' '}
-                <span className="text-green-500 dark:text-green-400 font-bold tabular-nums">{ratio.toFixed(2)}x</span> speed advantage over {slower}.
+                <span className="text-zinc-900 dark:text-white font-bold">{faster}</span> demonstrates higher efficiency, performing{' '}
+                <span className="text-green-500 dark:text-green-400 font-bold tabular-nums">
+                  {ratio > 100 ? 'over 100' : ratio.toFixed(2)}x
+                </span> faster than {slower} in this execution.
               </p>
             </div>
           </div>
