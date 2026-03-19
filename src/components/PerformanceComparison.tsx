@@ -57,8 +57,13 @@ export const PerformanceComparison: React.FC = () => {
               Performance Summary
             </h3>
           </div>
-          <div className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">
-            Real-time Analysis
+          <div className="flex flex-col items-end gap-2">
+            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">
+              Real-time Analysis
+            </div>
+            <div className="px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-950/40 text-[10px] font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+              Metric: Trimmed Mean ({trimPercent}%)
+            </div>
           </div>
         </div>
 

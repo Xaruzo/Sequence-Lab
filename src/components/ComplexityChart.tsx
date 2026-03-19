@@ -12,10 +12,10 @@ import {
   Area
 } from 'recharts';
 import { useStore } from '../store/useStore';
-import { LineChart as ChartIcon, Info } from 'lucide-react';
+import { LineChart as ChartIcon, Info, Trash2 } from 'lucide-react';
 
 export const ComplexityChart: React.FC = () => {
-  const { chartData, envInfo, tabulationResult, memoizationResult } = useStore();
+  const { chartData, envInfo, tabulationResult, memoizationResult, clearChartHistory } = useStore();
 
   if (!tabulationResult || !memoizationResult) return null;
 
@@ -36,17 +36,28 @@ export const ComplexityChart: React.FC = () => {
           </div>
         </div>
         
-        <div className="flex items-center gap-3 px-3 py-1.5 bg-zinc-50 dark:bg-zinc-950 rounded-full border border-zinc-100 dark:border-zinc-800">
-          <div className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-            <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-tighter">
-              {envInfo.browser}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 px-3 py-1.5 bg-zinc-50 dark:bg-zinc-950 rounded-full border border-zinc-100 dark:border-zinc-800">
+            <div className="flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-tighter">
+                {envInfo.browser}
+              </span>
+            </div>
+            <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800" />
+            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-tighter">
+              {envInfo.os}
             </span>
           </div>
-          <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800" />
-          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-tighter">
-            {envInfo.os}
-          </span>
+          <button
+            type="button"
+            onClick={clearChartHistory}
+            className="h-8 px-3 inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-[10px] font-bold uppercase tracking-widest"
+            title="Clear chart history"
+          >
+            <Trash2 size={14} />
+            Clear
+          </button>
         </div>
       </div>
 
@@ -125,7 +136,7 @@ export const ComplexityChart: React.FC = () => {
       <div className="mt-6 flex items-start gap-2 text-[10px] text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-950 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
         <Info size={14} className="mt-0.5 text-blue-500 shrink-0" />
         <p className="leading-relaxed">
-          The chart tracks your performance history. As you test different values of <span className="font-bold">n</span>, you'll see how the <span className="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-500/30 underline-offset-2">iterative overhead</span> of Tabulation compares to the <span className="text-purple-600 dark:text-purple-400 font-bold underline decoration-purple-500/30 underline-offset-2">recursive overhead</span> of Memoization.
+          The chart tracks your performance history. As you test different values of <span className="font-bold">n</span>, you'll see how the <span className="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-500/30 underline-offset-2">iterative overhead</span> of Tabulation compares to the <span className="text-purple-600 dark:text-purple-400 font-bold underline decoration-purple-500/30 underline-offset-2">recursive overhead</span> of Memoization. For best accuracy, keep this tab active while benchmarking.
         </p>
       </div>
     </div>

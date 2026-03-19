@@ -21,6 +21,7 @@ interface ComparisonState {
   setResults: (tab: PerformanceResult, memo: PerformanceResult, size: number) => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
+  clearChartHistory: () => void;
   reset: () => void;
 }
 
@@ -104,6 +105,11 @@ export const useStore = create<ComparisonState>((set) => ({
     }),
   setLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error, isLoading: false }),
+  clearChartHistory: () => set((state) => {
+    const baseline = [{ n: 0, tabulation: 0, memoization: 0 }];
+    saveChartData(baseline);
+    return { ...state, chartData: baseline };
+  }),
   reset: () => set(() => {
     const baseline = [{ n: 0, tabulation: 0, memoization: 0 }];
     saveChartData(baseline);
