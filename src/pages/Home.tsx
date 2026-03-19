@@ -181,22 +181,6 @@ const Home: React.FC = () => {
             <p>© 2026 SequenceLab Tool. Built for educational purposes.</p>
             <div className="flex items-center gap-6">
               <a
-                href="https://github.com/xaruzo69-code/my-site#readme"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-              >
-                Documentation
-              </a>
-              <a
-                href="https://github.com/xaruzo69-code/my-site"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-              >
-                Source Code
-              </a>
-              <a
                 href="https://en.wikipedia.org/wiki/Fibonacci_number"
                 target="_blank"
                 rel="noreferrer"
