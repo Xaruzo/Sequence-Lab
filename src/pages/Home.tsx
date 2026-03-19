@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-blue-100 dark:selection:bg-blue-900 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-10">
+      <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-50 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-blue-600 p-1.5 rounded-lg text-white shadow-lg shadow-blue-500/20">
@@ -31,10 +31,6 @@ const Home: React.FC = () => {
           <div className="flex items-center gap-4 text-zinc-500">
             <ThemeToggle />
             <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800" />
-            <a href="#" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
-              <Github size={20} />
-            </a>
-            <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
             <span className="text-xs font-medium uppercase tracking-widest opacity-60">v1.0.0</span>
           </div>
         </div>
@@ -57,7 +53,6 @@ const Home: React.FC = () => {
           <div className="lg:col-span-4 space-y-6">
             <InputSection />
             <PerformanceComparison />
-            <ComplexityChart />
             
             <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/50 p-5 rounded-xl">
               <div className="flex items-start gap-3">
@@ -74,8 +69,8 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Detailed Results */}
-          <div className="lg:col-span-8">
+          {/* Right Column: Detailed Results & Trends */}
+          <div className="lg:col-span-8 space-y-8">
             {!tabulationResult && !isLoading && (
               <div className="h-full min-h-[400px] border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 bg-white/50 dark:bg-zinc-900/50">
                 <Activity size={48} className="mb-4 opacity-20" />
@@ -110,6 +105,8 @@ const Home: React.FC = () => {
                 />
               </div>
             )}
+
+            <ComplexityChart />
           </div>
         </div>
       </main>
