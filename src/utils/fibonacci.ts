@@ -1,6 +1,9 @@
 export interface PerformanceResult {
   algorithm: 'tabulation' | 'memoization';
   executionTime: number;
+  medianTime: number;
+  trimmedMeanTime: number;
+  trimPercent: number;
   minTime: number;
   maxTime: number;
   sequence: bigint[];
@@ -63,6 +66,7 @@ export function measurePerformance(
   let minTime = Infinity;
   let maxTime = -Infinity;
   let lastSequence: bigint[] = [];
+  const samples: number[] = [];
 
   for (let i = 0; i < safeWarmup; i++) {
     lastSequence = fn(n);
@@ -81,12 +85,30 @@ export function measurePerformance(
     totalTime += perRun * currentBatch;
     if (perRun < minTime) minTime = perRun;
     if (perRun > maxTime) maxTime = perRun;
+    for (let i = 0; i < currentBatch; i++) samples.push(perRun);
     remaining -= currentBatch;
   }
+
+  const sorted = [...samples].sort((a, b) => a - b);
+  const medianTime =
+    sorted.length === 0
+      ? 0
+      : sorted.length % 2 === 1
+        ? sorted[(sorted.length - 1) / 2]
+        : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
+
+  const trimPercent = 10;
+  const trimCount = Math.floor((sorted.length * trimPercent) / 100);
+  const trimmed = sorted.slice(trimCount, Math.max(trimCount, sorted.length - trimCount));
+  const trimmedMeanTime =
+    trimmed.length === 0 ? totalTime / safeIterations : trimmed.reduce((acc, v) => acc + v, 0) / trimmed.length;
 
   return {
     algorithm,
     executionTime: totalTime / safeIterations,
+    medianTime,
+    trimmedMeanTime,
+    trimPercent,
     minTime,
     maxTime,
     sequence: lastSequence,

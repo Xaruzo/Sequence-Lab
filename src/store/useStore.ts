@@ -40,22 +40,58 @@ const getEnvInfo = () => {
   return { browser, os };
 };
 
+const chartStorageKey = 'sequencelab.chartData.v1';
+
+const loadChartData = (): ChartDataPoint[] => {
+  if (typeof window === 'undefined') return [{ n: 0, tabulation: 0, memoization: 0 }];
+  try {
+    const raw = window.localStorage.getItem(chartStorageKey);
+    if (!raw) return [{ n: 0, tabulation: 0, memoization: 0 }];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [{ n: 0, tabulation: 0, memoization: 0 }];
+    const sanitized = parsed
+      .map((d) => ({
+        n: Number((d as any).n),
+        tabulation: Number((d as any).tabulation),
+        memoization: Number((d as any).memoization),
+      }))
+      .filter((d) => Number.isFinite(d.n) && Number.isFinite(d.tabulation) && Number.isFinite(d.memoization))
+      .sort((a, b) => a.n - b.n);
+    const withBaseline = sanitized.some((d) => d.n === 0)
+      ? sanitized
+      : [{ n: 0, tabulation: 0, memoization: 0 }, ...sanitized];
+    return withBaseline.slice(-60);
+  } catch {
+    return [{ n: 0, tabulation: 0, memoization: 0 }];
+  }
+};
+
+const saveChartData = (data: ChartDataPoint[]) => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(chartStorageKey, JSON.stringify(data));
+  } catch {
+    return;
+  }
+};
+
 export const useStore = create<ComparisonState>((set) => ({
   tabulationResult: null,
   memoizationResult: null,
   inputSize: 0,
   isLoading: false,
   error: null,
-  chartData: [{ n: 0, tabulation: 0, memoization: 0 }],
+  chartData: loadChartData(),
   envInfo: getEnvInfo(),
   setResults: (tab, memo, size) => 
     set((state) => {
-      // Avoid duplicate entries for the same n
       const newChartData = [...state.chartData.filter(d => d.n !== size), {
         n: size,
-        tabulation: parseFloat(tab.executionTime.toFixed(4)),
-        memoization: parseFloat(memo.executionTime.toFixed(4))
+        tabulation: parseFloat(tab.trimmedMeanTime.toFixed(4)),
+        memoization: parseFloat(memo.trimmedMeanTime.toFixed(4))
       }].sort((a, b) => a.n - b.n);
+      const limited = newChartData.slice(-60);
+      saveChartData(limited);
 
       return { 
         tabulationResult: tab, 
@@ -63,17 +99,21 @@ export const useStore = create<ComparisonState>((set) => ({
         inputSize: size, 
         isLoading: false, 
         error: null,
-        chartData: newChartData
+        chartData: limited
       };
     }),
   setLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error, isLoading: false }),
-  reset: () => set({ 
-    tabulationResult: null, 
-    memoizationResult: null, 
-    inputSize: 0, 
-    isLoading: false, 
-    error: null,
-    chartData: [{ n: 0, tabulation: 0, memoization: 0 }] 
+  reset: () => set(() => {
+    const baseline = [{ n: 0, tabulation: 0, memoization: 0 }];
+    saveChartData(baseline);
+    return { 
+      tabulationResult: null, 
+      memoizationResult: null, 
+      inputSize: 0, 
+      isLoading: false, 
+      error: null,
+      chartData: baseline
+    };
   }),
 }));

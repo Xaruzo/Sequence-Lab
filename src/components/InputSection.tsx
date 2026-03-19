@@ -188,6 +188,11 @@ export const InputSection: React.FC = () => {
       <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
         Enter a number to compare Tabulation (bottom-up) and Memoization (top-down) performance.
       </p>
+      {Number.isFinite(Number(inputValue)) && Number(inputValue) > 3000 && (
+        <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">
+          Memoization uses recursion and may hit the call stack for very large n on some browsers. If that happens, lower n or rely on Tabulation.
+        </p>
+      )}
     </div>
   );
 };

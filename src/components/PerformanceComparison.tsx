@@ -16,8 +16,8 @@ export const PerformanceComparison: React.FC = () => {
 
   if (!tabulationResult || !memoizationResult) return null;
 
-  const tabTime = tabulationResult.executionTime;
-  const memoTime = memoizationResult.executionTime;
+  const tabTime = tabulationResult.trimmedMeanTime;
+  const memoTime = memoizationResult.trimmedMeanTime;
   
   const totalTime = tabTime + memoTime;
   const isTabFaster = tabTime < memoTime;
@@ -39,6 +39,7 @@ export const PerformanceComparison: React.FC = () => {
   const tabPercent = totalTime > 0 ? (tabTime / totalTime) * 100 : 50;
   const memoPercent = totalTime > 0 ? (memoTime / totalTime) * 100 : 50;
   const iterations = tabulationResult.iterations;
+  const trimPercent = tabulationResult.trimPercent;
 
   return (
     <div className="relative overflow-hidden bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-100 p-6 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 group hover:shadow-2xl hover:border-blue-500/30 dark:hover:border-blue-400/20">
@@ -70,11 +71,11 @@ export const PerformanceComparison: React.FC = () => {
                 <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
                   {isEquivalent ? (
                     <span>
-                      Performance is equivalent for input <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span> (avg over {iterations} runs).
+                      Performance is equivalent for input <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span> (trimmed {trimPercent}% over {iterations} runs).
                     </span>
                   ) : (
                     <>
-                      <span className="text-zinc-900 dark:text-white font-bold">{faster}</span> is measurably faster for <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span> (avg over {iterations} runs), performing{' '}
+                      <span className="text-zinc-900 dark:text-white font-bold">{faster}</span> is measurably faster for <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span> (trimmed {trimPercent}% over {iterations} runs), performing{' '}
                       <span className="text-green-500 dark:text-green-400 font-bold tabular-nums">
                         {ratio > 100 ? 'over 100' : ratio.toFixed(2)}x
                       </span> faster than {slower}.

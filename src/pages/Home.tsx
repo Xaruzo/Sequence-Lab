@@ -12,8 +12,8 @@ const Home: React.FC = () => {
 
   const fasterAlgorithm = tabulationResult && memoizationResult
     ? (() => {
-        const tabTime = tabulationResult.executionTime;
-        const memoTime = memoizationResult.executionTime;
+        const tabTime = tabulationResult.trimmedMeanTime;
+        const memoTime = memoizationResult.trimmedMeanTime;
         const minTime = 0.0001;
         const ratio = tabTime < memoTime 
           ? memoTime / Math.max(tabTime, minTime) 

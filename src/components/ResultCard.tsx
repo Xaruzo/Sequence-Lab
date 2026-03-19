@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { PerformanceResult } from '../utils/fibonacci';
-import { Clock, ListOrdered, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Clock, ListOrdered, CheckCircle2, ChevronDown, ChevronUp, Info } from 'lucide-react';
 
 interface ResultCardProps {
   result: PerformanceResult;
@@ -62,10 +62,22 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
             </p>
             <div className="flex gap-4 mt-1">
               <div className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
+                Median: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.medianTime.toFixed(4)}ms</span>
+              </div>
+              <div className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
+                Trimmed: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.trimmedMeanTime.toFixed(4)}ms</span>
+              </div>
+            </div>
+            <div className="flex gap-4 mt-1">
+              <div className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
                 Min: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.minTime.toFixed(4)}ms</span>
               </div>
               <div className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
                 Max: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.maxTime.toFixed(4)}ms</span>
+              </div>
+              <div className="ml-auto flex items-center gap-1 text-[10px] text-zinc-400 font-medium uppercase tracking-tighter" title="Min can show 0.0000ms due to timer resolution and rounding. Max may spike due to JIT compilation, garbage collection, or background activity. Median/trimmed mean are more robust to outliers.">
+                <Info size={12} className="opacity-70" />
+                Accuracy
               </div>
             </div>
           </div>
