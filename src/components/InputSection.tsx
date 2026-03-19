@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import { Play, RotateCcw, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { fibonacciTabulation, fibonacciMemoization, measurePerformance } from '../utils/fibonacci';
 
 export const InputSection: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
+  const [showBenchmarkControls, setShowBenchmarkControls] = useState(false);
+  const [iterationsValue, setIterationsValue] = useState('500');
+  const [warmupValue, setWarmupValue] = useState('50');
+  const [batchSizeValue, setBatchSizeValue] = useState('10');
   const { setResults, setLoading, setError, reset, isLoading } = useStore();
 
   const handleExecute = () => {
@@ -25,11 +29,37 @@ export const InputSection: React.FC = () => {
     // Use setTimeout to allow the loading state to render
     setTimeout(() => {
       try {
-        const iterations = 500;
-        const warmupIterations = 50;
-        const batchSize = 10;
-        const tabResult = measurePerformance(fibonacciTabulation, n, 'tabulation', iterations, warmupIterations, batchSize);
-        const memoResult = measurePerformance(fibonacciMemoization, n, 'memoization', iterations, warmupIterations, batchSize);
+        const parsedIterations = Number(iterationsValue);
+        const parsedWarmup = Number(warmupValue);
+        const parsedBatchSize = Number(batchSizeValue);
+
+        if (!Number.isFinite(parsedIterations) || !Number.isFinite(parsedWarmup) || !Number.isFinite(parsedBatchSize)) {
+          setError('Benchmark settings must be valid numbers.');
+          return;
+        }
+
+        const iterations = Math.floor(parsedIterations);
+        const warmupIterations = Math.floor(parsedWarmup);
+        const batchSize = Math.floor(parsedBatchSize);
+
+        if (iterations < 50 || iterations > 2000) {
+          setError('Iterations must be between 50 and 2000.');
+          return;
+        }
+
+        if (warmupIterations < 0 || warmupIterations > 500) {
+          setError('Warm-up must be between 0 and 500.');
+          return;
+        }
+
+        if (batchSize < 1 || batchSize > 100) {
+          setError('Batch size must be between 1 and 100.');
+          return;
+        }
+
+        const effectiveBatchSize = Math.min(batchSize, iterations);
+        const tabResult = measurePerformance(fibonacciTabulation, n, 'tabulation', iterations, warmupIterations, effectiveBatchSize);
+        const memoResult = measurePerformance(fibonacciMemoization, n, 'memoization', iterations, warmupIterations, effectiveBatchSize);
         setResults(tabResult, memoResult, n);
       } catch (err) {
         setError('An error occurred during calculation. The input might be too large.');
@@ -82,6 +112,78 @@ export const InputSection: React.FC = () => {
             <RotateCcw size={18} />
           </button>
         </div>
+      </div>
+      <div className="mt-4">
+        <button
+          type="button"
+          onClick={() => setShowBenchmarkControls((v) => !v)}
+          className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-950/40 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100/70 dark:hover:bg-zinc-950/60 transition-colors"
+          disabled={isLoading}
+        >
+          <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
+            <SlidersHorizontal size={14} className="opacity-80" />
+            Benchmark Controls
+          </span>
+          {showBenchmarkControls ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+
+        {showBenchmarkControls && (
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                Iterations
+              </label>
+              <input
+                type="number"
+                min="50"
+                max="2000"
+                value={iterationsValue}
+                onChange={(e) => setIterationsValue(e.target.value)}
+                className="w-full px-3 py-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm font-mono text-zinc-900 dark:text-zinc-100"
+                disabled={isLoading}
+              />
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500">
+                Avg time uses this many measured runs.
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                Warm-up
+              </label>
+              <input
+                type="number"
+                min="0"
+                max="500"
+                value={warmupValue}
+                onChange={(e) => setWarmupValue(e.target.value)}
+                className="w-full px-3 py-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm font-mono text-zinc-900 dark:text-zinc-100"
+                disabled={isLoading}
+              />
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500">
+                Runs before timing to reduce JIT noise.
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                Batch Size
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                value={batchSizeValue}
+                onChange={(e) => setBatchSizeValue(e.target.value)}
+                className="w-full px-3 py-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm font-mono text-zinc-900 dark:text-zinc-100"
+                disabled={isLoading}
+              />
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500">
+                Runs per timer window (lower overhead).
+              </p>
+            </div>
+          </div>
+        )}
       </div>
       <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
         Enter a number to compare Tabulation (bottom-up) and Memoization (top-down) performance.
