@@ -43,7 +43,7 @@ export const InputSection: React.FC = () => {
     <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border border-zinc-200 dark:border-zinc-800 transition-colors duration-300">
       <div className="flex flex-col md:flex-row gap-4 items-end">
         <div className="flex-1 w-full">
-          <label htmlFor="fib-input" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+          <label htmlFor="fib-input" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1 whitespace-nowrap">
             Fibonacci Index (n)
           </label>
           <input
