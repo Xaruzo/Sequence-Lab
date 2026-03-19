@@ -26,15 +26,19 @@ export const PerformanceComparison: React.FC = () => {
   
   // Calculate ratio safely, handling cases where execution time is near zero
   const minTime = 0.0001;
-  const ratio = isTabFaster 
-    ? memoTime / Math.max(tabTime, minTime) 
+  const ratio = isTabFaster
+    ? memoTime / Math.max(tabTime, minTime)
     : tabTime / Math.max(memoTime, minTime);
   
-  // Check if execution times are nearly identical (e.g., within 5% or < 0.05ms diff)
-  const isNearlyEqual = ratio < 1.05 || Math.abs(tabTime - memoTime) < 0.05;
+  const diff = Math.abs(tabTime - memoTime);
+  const meaningfulRatio = 1.1;
+  const meaningfulAbsMs = 0.01;
+  const isMeaningfulDifference = ratio >= meaningfulRatio && diff >= meaningfulAbsMs;
+  const isEquivalent = !isMeaningfulDifference;
   
   const tabPercent = totalTime > 0 ? (tabTime / totalTime) * 100 : 50;
   const memoPercent = totalTime > 0 ? (memoTime / totalTime) * 100 : 50;
+  const iterations = tabulationResult.iterations;
 
   return (
     <div className="relative overflow-hidden bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-100 p-6 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 group hover:shadow-2xl hover:border-blue-500/30 dark:hover:border-blue-400/20">
@@ -64,11 +68,13 @@ export const PerformanceComparison: React.FC = () => {
               <TrendingUp className="text-green-500 mt-1" size={16} />
               <div className="space-y-2">
                 <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
-                  {isNearlyEqual ? (
-                    <span>Performance is equivalent for input <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span>.</span>
+                  {isEquivalent ? (
+                    <span>
+                      Performance is equivalent for input <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span> (avg over {iterations} runs).
+                    </span>
                   ) : (
                     <>
-                      <span className="text-zinc-900 dark:text-white font-bold">{faster}</span> demonstrates higher efficiency for <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span>, performing{' '}
+                      <span className="text-zinc-900 dark:text-white font-bold">{faster}</span> is measurably faster for <span className="font-bold text-zinc-900 dark:text-white">n={inputSize}</span> (avg over {iterations} runs), performing{' '}
                       <span className="text-green-500 dark:text-green-400 font-bold tabular-nums">
                         {ratio > 100 ? 'over 100' : ratio.toFixed(2)}x
                       </span> faster than {slower}.
@@ -83,6 +89,10 @@ export const PerformanceComparison: React.FC = () => {
                   <div className="flex items-center gap-1">
                     <List size={12} className="opacity-70" />
                     <span>Terms: {inputSize + 1} (F₀-Fₙ)</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Cpu size={12} className="opacity-60" />
+                    <span>{iterations} runs</span>
                   </div>
                 </div>
               </div>

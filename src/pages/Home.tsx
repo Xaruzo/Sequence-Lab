@@ -5,7 +5,7 @@ import { PerformanceComparison } from '../components/PerformanceComparison';
 import { ComplexityChart } from '../components/ComplexityChart';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useStore } from '../store/useStore';
-import { Activity, Github, Info } from 'lucide-react';
+import { Activity, Info } from 'lucide-react';
 
 const Home: React.FC = () => {
   const { tabulationResult, memoizationResult, isLoading } = useStore();
@@ -14,14 +14,15 @@ const Home: React.FC = () => {
     ? (() => {
         const tabTime = tabulationResult.executionTime;
         const memoTime = memoizationResult.executionTime;
-        const diff = Math.abs(tabTime - memoTime);
         const minTime = 0.0001;
         const ratio = tabTime < memoTime 
           ? memoTime / Math.max(tabTime, minTime) 
           : tabTime / Math.max(memoTime, minTime);
+        const diff = Math.abs(tabTime - memoTime);
+        const meaningfulRatio = 1.1;
+        const meaningfulAbsMs = 0.01;
         
-        // Use the same "nearly equal" threshold as PerformanceComparison.tsx
-        if (ratio < 1.05 || diff < 0.05) return null;
+        if (ratio < meaningfulRatio || diff < meaningfulAbsMs) return null;
         
         return tabTime < memoTime ? 'tabulation' : 'memoization';
       })()
