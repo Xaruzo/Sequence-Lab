@@ -1,8 +1,11 @@
 export interface PerformanceResult {
   algorithm: 'tabulation' | 'memoization';
-  executionTime: number; // in milliseconds
+  executionTime: number; // average time in milliseconds
+  minTime: number;
+  maxTime: number;
   sequence: bigint[];
   inputSize: number;
+  iterations: number;
 }
 
 export function fibonacciTabulation(n: number): bigint[] {
@@ -37,28 +40,41 @@ export function fibonacciMemoization(n: number): bigint[] {
     return memo[k];
   }
   
-  // Single top-down call fills the memo array from n down to base cases
   fib(n);
   
-  // Convert the memoized array to a complete sequence
-  // In a realistic scenario, memo[0] and memo[1] might not be set by fib(n) 
-  // if n is large and they were already set, but here we set them manually.
   return Array.from({ length: n + 1 }, (_, i) => memo[i]);
 }
 
 export function measurePerformance(
   fn: (n: number) => bigint[],
   n: number,
-  algorithm: 'tabulation' | 'memoization'
+  algorithm: 'tabulation' | 'memoization',
+  iterations: number = 500
 ): PerformanceResult {
-  const start = performance.now();
-  const sequence = fn(n);
-  const end = performance.now();
-  
+  let totalTime = 0;
+  let minTime = Infinity;
+  let maxTime = -Infinity;
+  let lastSequence: bigint[] = [];
+
+  // Run iterations for benchmarking
+  for (let i = 0; i < iterations; i++) {
+    const start = performance.now();
+    lastSequence = fn(n);
+    const end = performance.now();
+    const duration = end - start;
+
+    totalTime += duration;
+    if (duration < minTime) minTime = duration;
+    if (duration > maxTime) maxTime = duration;
+  }
+
   return {
     algorithm,
-    executionTime: end - start,
-    sequence,
-    inputSize: n
+    executionTime: totalTime / iterations,
+    minTime,
+    maxTime,
+    sequence: lastSequence,
+    inputSize: n,
+    iterations
   };
 }

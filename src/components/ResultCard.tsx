@@ -21,7 +21,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
   }, [result.sequence, isExpanded]);
   
   return (
-    <div className={`relative flex flex-col h-full min-h-[500px] bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border-2 transition-all duration-300 ${
+    <div className={`relative flex flex-col h-full min-h-[550px] bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border-2 transition-all duration-300 ${
       isFaster 
         ? 'border-green-500 bg-green-50/10 dark:bg-green-500/5' 
         : isEqual
@@ -55,11 +55,19 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
           <div className={`p-2 rounded-lg ${isTabulation ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-purple-100 dark:bg-purple-900/30'}`}>
             <Clock size={18} className={isTabulation ? 'text-blue-600 dark:text-blue-400' : 'text-purple-600 dark:text-purple-400'} />
           </div>
-          <div>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Execution Time</p>
+          <div className="flex-1">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Avg. Execution Time</p>
             <p className="text-lg font-mono font-bold text-zinc-800 dark:text-zinc-200">
               {result.executionTime.toFixed(4)} <span className="text-sm font-normal">ms</span>
             </p>
+            <div className="flex gap-4 mt-1">
+              <div className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
+                Min: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.minTime.toFixed(4)}ms</span>
+              </div>
+              <div className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter">
+                Max: <span className="text-zinc-600 dark:text-zinc-300 font-mono">{result.maxTime.toFixed(4)}ms</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -68,8 +76,13 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
             <ListOrdered size={18} className="text-zinc-600 dark:text-zinc-400" />
           </div>
           <div>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Sequence (F₀ to Fₙ)</p>
-            <p className="text-lg font-mono font-bold text-zinc-800 dark:text-zinc-200">{result.inputSize + 1} terms</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Benchmark Data</p>
+            <p className="text-sm font-mono font-bold text-zinc-800 dark:text-zinc-200">
+              {result.iterations} <span className="text-[10px] font-normal uppercase opacity-60">iterations</span>
+            </p>
+            <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-tighter mt-0.5">
+              Sequence: {result.inputSize + 1} terms (F₀-Fₙ)
+            </p>
           </div>
         </div>
 
