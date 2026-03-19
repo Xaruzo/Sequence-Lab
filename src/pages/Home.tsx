@@ -2,6 +2,7 @@ import React from 'react';
 import { InputSection } from '../components/InputSection';
 import { ResultCard } from '../components/ResultCard';
 import { PerformanceComparison } from '../components/PerformanceComparison';
+import { ComplexityChart } from '../components/ComplexityChart';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useStore } from '../store/useStore';
 import { Activity, Github, Info } from 'lucide-react';
@@ -56,6 +57,7 @@ const Home: React.FC = () => {
           <div className="lg:col-span-4 space-y-6">
             <InputSection />
             <PerformanceComparison />
+            <ComplexityChart />
             
             <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/50 p-5 rounded-xl">
               <div className="flex items-start gap-3">
