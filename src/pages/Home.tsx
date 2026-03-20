@@ -194,7 +194,7 @@ const Home: React.FC = () => {
         </div>
       </main>
 
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-8 flex-shrink-0">
+      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-4 flex-shrink-0">
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-500 dark:text-zinc-400 text-xs">
           <p>© 2026 SequenceLab Tool. Built for educational purposes.</p>
           <div className="flex items-center gap-6">
