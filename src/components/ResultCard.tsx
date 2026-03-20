@@ -43,13 +43,22 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
         </div>
       )}
       
-      <div className="mb-4">
-        <h3 className={`text-lg font-bold ${isTabulation ? 'text-blue-600 dark:text-blue-400' : 'text-purple-600 dark:text-purple-400'}`}>
-          {isTabulation ? 'Tabulation' : 'Memoization'}
-        </h3>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
-          {isTabulation ? 'Bottom-Up Approach' : 'Top-Down Approach'}
-        </p>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="text-xl font-black tracking-tight text-zinc-900 dark:text-white uppercase">
+            {isTabulation ? 'Tabulation' : 'Memoization'}
+          </h3>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+            {isTabulation ? 'Bottom-Up Approach' : 'Top-Down Approach'}
+          </p>
+        </div>
+        <span
+          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 cursor-help transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
+          title="Min can show 0.0000ms due to timer resolution and rounding. Max may spike due to JIT compilation, garbage collection, or background activity. Median/trimmed mean are more robust to outliers."
+        >
+          <Info size={12} className="opacity-70" />
+          Accuracy
+        </span>
       </div>
 
       <div className="space-y-4 flex-grow">
@@ -83,19 +92,10 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
                   {result.minTime.toFixed(4)}ms
                 </span>
               </div>
-              <div className="flex items-center justify-between gap-3">
-                <span>
-                  Max:{' '}
-                  <span className="font-mono tabular-nums text-zinc-800 dark:text-zinc-200">
-                    {result.maxTime.toFixed(4)}ms
-                  </span>
-                </span>
-                <span
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400"
-                  title="Min can show 0.0000ms due to timer resolution and rounding. Max may spike due to JIT compilation, garbage collection, or background activity. Median/trimmed mean are more robust to outliers."
-                >
-                  <Info size={14} className="opacity-80" />
-                  Accuracy
+              <div>
+                Max:{' '}
+                <span className="font-mono tabular-nums text-zinc-800 dark:text-zinc-200">
+                  {result.maxTime.toFixed(4)}ms
                 </span>
               </div>
             </div>

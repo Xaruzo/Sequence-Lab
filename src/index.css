@@ -49,6 +49,20 @@
   *::-webkit-scrollbar-thumb:hover {
     background: var(--scrollbar-thumb-hover);
   }
+
+  /* Remove persistent focus rings/outlines globally for Recharts and other elements */
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Specifically target Recharts SVG elements which often ignore standard outline rules */
+  .recharts-wrapper, 
+  .recharts-surface,
+  .recharts-wrapper *:focus {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 .custom-scrollbar {
