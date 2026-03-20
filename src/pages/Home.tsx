@@ -41,9 +41,9 @@ const Home: React.FC = () => {
     : null;
 
   return (
-    <div className="h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-blue-100 dark:selection:bg-blue-900 transition-colors duration-300 overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-blue-100 dark:selection:bg-blue-900 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 z-50 shadow-sm flex-shrink-0">
+      <header className="sticky top-0 z-50 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 shadow-sm flex-shrink-0">
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-blue-600 p-1.5 rounded-lg text-white shadow-lg shadow-blue-500/20">
@@ -60,8 +60,8 @@ const Home: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto custom-scrollbar">
-        <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 py-8 md:py-12">
+      <main className="flex-1 flex flex-col">
+        <div className="flex-1 max-w-screen-2xl mx-auto px-6 lg:px-10 py-8 md:py-12 w-full">
           {/* Intro */}
           <div className="mb-10 text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-black text-zinc-900 dark:text-zinc-50 mb-4 tracking-tight">
@@ -192,23 +192,23 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </main>
-
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-4 flex-shrink-0">
-        <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-500 dark:text-zinc-400 text-xs">
-          <p>© 2026 SequenceLab Tool. Built for educational purposes.</p>
-          <div className="flex items-center gap-6">
-            <a
-              href="https://en.wikipedia.org/wiki/Fibonacci_number"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-            >
-              Algorithm Guide
-            </a>
+        
+        <footer className="w-full border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-4 flex-shrink-0 mt-auto">
+          <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-500 dark:text-zinc-400 text-xs">
+            <p>© 2026 SequenceLab Tool. Built for educational purposes.</p>
+            <div className="flex items-center gap-6">
+              <a
+                href="https://en.wikipedia.org/wiki/Fibonacci_number"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+              >
+                Algorithm Guide
+              </a>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </main>
     </div>
   );
 };
