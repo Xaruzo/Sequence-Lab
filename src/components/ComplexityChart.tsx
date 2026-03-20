@@ -39,7 +39,7 @@ export const ComplexityChart: React.FC = () => {
             <ChartIcon size={18} />
           </div>
           <div>
-            <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
+            <h3 className="text-lg font-bold tracking-tight text-blue-800 dark:text-blue-300">
               Complexity Analysis
             </h3>
             <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
@@ -122,6 +122,7 @@ export const ComplexityChart: React.FC = () => {
               iconType="circle" 
               iconSize={8}
               wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', paddingBottom: '20px' }}
+              formatter={(value) => <span style={{ position: 'relative', top: '1px' }}>{value}</span>}
             />
             <Area 
               type="monotone" 

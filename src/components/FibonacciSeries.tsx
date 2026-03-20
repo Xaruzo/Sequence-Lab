@@ -20,11 +20,11 @@ export const FibonacciSeries: React.FC<FibonacciSeriesProps> = ({ sequence, n })
     <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border border-zinc-200 dark:border-zinc-800 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg text-zinc-700 dark:text-zinc-300">
-            <ListOrdered size={18} />
+          <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg text-amber-700 dark:text-amber-400">
+            <ListOrdered size={18} className="animate-pulse" />
           </div>
           <div>
-            <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-lg font-bold tracking-tight text-amber-800 dark:text-amber-300">
               Fibonacci Series
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
