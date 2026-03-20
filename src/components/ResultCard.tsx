@@ -45,7 +45,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
       
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-black tracking-tight text-zinc-900 dark:text-white uppercase">
+          <h3 className={`text-xl font-black tracking-tight uppercase ${isTabulation ? 'text-blue-600 dark:text-blue-400' : 'text-purple-600 dark:text-purple-400'}`}>
             {isTabulation ? 'Tabulation' : 'Memoization'}
           </h3>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
@@ -53,7 +53,11 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
           </p>
         </div>
         <span
-          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 cursor-help transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
+          className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider cursor-help transition-colors ${
+            isTabulation
+              ? 'bg-blue-100/80 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 hover:bg-blue-200/70 dark:hover:bg-blue-900/40'
+              : 'bg-purple-100/80 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-200/70 dark:hover:bg-purple-900/40'
+          }`}
           title="Min can show 0.0000ms due to timer resolution and rounding. Max may spike due to JIT compilation, garbage collection, or background activity. Median/trimmed mean are more robust to outliers."
         >
           <Info size={12} className="opacity-70" />
@@ -103,8 +107,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isFaster, isEqua
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
-            <ListOrdered size={18} className="text-zinc-600 dark:text-zinc-400" />
+          <div className={`p-2 rounded-lg ${isTabulation ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-purple-100 dark:bg-purple-900/30'}`}>
+            <ListOrdered size={18} className={isTabulation ? 'text-blue-600 dark:text-blue-400' : 'text-purple-600 dark:text-purple-400'} />
           </div>
           <div>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase font-bold tracking-wider">Benchmark Data</p>
