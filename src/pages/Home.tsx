@@ -64,8 +64,10 @@ const Home: React.FC = () => {
         <div className="flex-1 max-w-screen-2xl mx-auto px-6 lg:px-10 py-8 md:py-12 w-full">
           {/* Intro */}
           <div className="mb-10 text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-black text-zinc-900 dark:text-zinc-50 mb-4 tracking-tight">
-              Tabulation <span className="text-zinc-400 dark:text-zinc-600">vs</span> Memoization
+            <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">
+              <span className="text-blue-600 dark:text-blue-400">Tabulation</span>{' '}
+              <span className="text-zinc-500 dark:text-zinc-400">vs</span>{' '}
+              <span className="text-purple-600 dark:text-purple-400">Memoization</span>
             </h2>
             <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
               Compare the efficiency of two common dynamic programming approaches for calculating Fibonacci numbers. 

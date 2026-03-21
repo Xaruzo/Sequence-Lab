@@ -121,6 +121,7 @@ export const ComplexityChart: React.FC = () => {
               align="right" 
               iconType="circle" 
               iconSize={8}
+              itemSorter={(item) => (item.value === 'Tabulation' ? -1 : 1)}
               wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', paddingBottom: '20px' }}
               formatter={(value) => <span style={{ position: 'relative', top: '1px' }}>{value}</span>}
             />
